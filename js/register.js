@@ -20,7 +20,7 @@ elForm.addEventListener('submit', (evt)=>{
     evt.preventDefault()
     let userName = elUserInput.value.split('')[0].toUpperCase();
     console.log(userName);
-    fetch('http://10.10.0.247:5000/user/register', {
+    fetch('http://192.168.43.105:5000/user/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,10 +35,16 @@ elForm.addEventListener('submit', (evt)=>{
     .then((data)=>{
        
      console.log(data);
-    if(data.token){
+  if(data.token){
          localStorage.setItem('user-name', userName)
         localStorage.setItem('token', data.token);
         location.replace('index.html');
+    }
+    else{
+        elEmailInput.classList.add('input-error');
+        elEmailInput.value=''
+        elPasswordInput.value=''
+        alert('User not found')
     }
     })
     .catch((err)=>console.log(err))

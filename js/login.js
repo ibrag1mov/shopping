@@ -19,7 +19,7 @@ elEyeBtn.addEventListener('click', (evt)=>{
 elForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    fetch('http://10.10.0.247:5000/user/login', {
+    fetch('http://192.168.43.105:5000/user/login', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
