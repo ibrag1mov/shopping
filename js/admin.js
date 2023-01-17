@@ -43,8 +43,8 @@ const renderProduct = (array, node)=>{
                 newText_desc.textContent = product.product_desc;
                 newEditBtn.textContent = 'Edit';
                 newDeleteBtn.textContent = 'Delete'
-                newEditBtn.dataset.BtnEditId=id;
-                newDeleteBtn.dataset.BtnId=id;
+                newEditBtn.dataset.btnsId=id;
+                newDeleteBtn.dataset.btnId=id;
         
                 newItem.appendChild(newImg);
                 newItem.appendChild(newTitle);
@@ -96,7 +96,7 @@ elForm.addEventListener('submit', (evt)=>{
 })
 
 
-const deleteProduct= (id)=>{
+const deleteProduct = (id)=>{
     fetch(`http://192.168.43.105:5000/product/${id}`,{
         method: 'DELETE',
         headers:{
@@ -109,7 +109,7 @@ const deleteProduct= (id)=>{
     }).catch((err)=>console.log(err))
 }
 
-const editProduct= (id)=>{
+const editProduct = (id)=>{
     const name = prompt('User Name');
     const price = prompt('price');
     const desc = prompt('Description');
@@ -138,11 +138,11 @@ const editProduct= (id)=>{
 
 elList.addEventListener('click', (evt)=>{
     if(evt.target.matches('.delete-btn')){
-        const productId = evt.target.dataset.BtnId;
+        const productId = evt.target.dataset.btnId;
         deleteProduct(productId);   
     }
-    else if(evt.target.matches('.edit-btn')){
-        const productId = evt.target.dataset.BtnEditId;
+     if(evt.target.matches('.edit-btn')){
+        const productId = evt.target.dataset.btnsId;
         editProduct(productId);
         // elModal.classList.remove('d-none')
     }
