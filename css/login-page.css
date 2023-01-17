@@ -1,0 +1,83 @@
+
+.login-card{
+    margin: 50px auto;
+    width: 420px;
+    height: 350px;
+    border-radius: 8px;
+    padding: 50px 20px;
+}
+
+.light .login-card{
+    background: rgba(108, 108, 108, 0.263);
+}
+
+.dark .login-card{
+    background: rgba(107, 107, 107, 0.186);
+}
+
+.light .card-title{
+    color: #008cff;
+}
+.dark .card-title{
+    color: #fcc661;
+}
+.card-title{
+    font-size: 35px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.input{
+    width: 100%;
+    padding: 10px 55px 10px 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: 20px;
+}
+.password-input{
+    position: relative;
+}
+
+.password-eye{
+    position: absolute;
+    top: 27px;
+    right: 15px;
+    z-index: 5;
+    color: #000;
+    font-size: 20px;
+    cursor: pointer;
+}
+.js-form-submit{
+    transition: all .3s ease;
+}
+
+.light .js-form-submit{
+    background-color: rgb(40, 135, 225);
+    color: rgb(255, 255, 255);
+}
+.dark .js-form-submit{
+    background-color: transparent;
+    color: inherit;
+    border: 1px solid #fff;
+}
+
+.light .js-form-submit:hover{
+    background: rgba(0, 132, 255, 0.647);
+    box-shadow: 0 0px 20px rgb(55, 146, 231);
+}
+.dark .js-form-submit:hover{
+    background: rgba(112, 112, 112, 0.208);
+    box-shadow: 0 0px 20px rgb(92, 92, 92);
+}
+
+.js-form-submit{
+    display: block;
+    width: 70%;
+    margin: 30px auto;
+    padding: 12px 0;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}

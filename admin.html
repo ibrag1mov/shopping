@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<icons>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Admin</title>
+
+    <!-- bootstrap icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+    <!-- style.css -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/admin-page.css">
+    </head>
+
+    <body class="light">
+        <div class="modal d-none">
+            <div class="modal-card">
+                <h2 class="modal-title">Add product</h2>
+                <form class="js-form" id="form" method="POST">
+                    <div class="form-wrapper">
+                        <div class="form-left">
+
+                            <label class="label" for="product-name">
+                                <span class="label-name">Product Name</span>
+                                <input class="input" type="text" name="product_name" id="product-name" placeholder="Product Name" required>
+                            </label>
+
+                            <label class="label" for="product-price">
+                                <span class="label-name">Product Price</span>
+                                <input class="input" type="number" name="product_price" id="product-price" placeholder="Product Price" required>
+                            </label>
+
+                        </div>
+
+                        <label class="label" for="product">
+                            <span style="left: 15px;" class="label-name">Product Img</span>
+                        </label>
+
+                        <div class="form-right">
+
+                            <figure class="image-container">
+                                <img id="chosen-image">
+                                <figcaption id="file-name"></figcaption>
+                            </figure>
+
+                            <input class="input-file" type="file" id="upload-button" name="product_img" accept="image/png, image/jpg, image/jpeg" required>
+                            
+                            <label class="photo-label" for="upload-button">
+                                <i class="bi bi-upload"></i><br>
+                                <span style="text-align: center; display: block;">Choose A Photo</span>
+                            </label>
+
+                        </div>           
+
+                    </div>
+                    <label class="label" for="product-desc">
+                        <span class="label-name">Product description</span>
+                        <input type="text"  class=" input"  name="product_desc" id="product-desc" placeholder="Product description" maxlength="" required>
+                    </label>
+                    <div class="btns-group">
+                        <button class=" btn-reset" type="reset">Close</button>
+                        <button class=" btn-submit" type="submit">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <header class="header">
+            <div class="container">
+                <nav class="navbar">
+                    <h1 class="nav-logo">
+                        <a href="admin.html">
+                            <img class="logo" src="images/logo.svg" alt="logo" />
+                        </a>
+                        <span class="logo-title">Admin</span>
+                    </h1>
+                    <div class="links">
+                        <ul class="nav-list">
+                            <li class="nav-list-item"><a href="admin.html" class="nav-link">Product</a></li>
+                        </ul>
+                        <button class="btn nav-btn js-dark-mode"><i class="bi bi-sun"></i></button>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        
+        <main>
+            <div class="content">
+                <div class="container">
+                    <div class="product-wrapper">
+                        <div class="add-product">
+                            <button class="btn add-btn">Add Product <i class="bi bi-file-earmark-plus"></i></button>
+                            <ul class="js-list">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+
+
+        <script src="js/dark-mode.js"></script>
+        <script src="js/admin.js"></script>
+    </body>
+
+</html>
