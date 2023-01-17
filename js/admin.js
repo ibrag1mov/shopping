@@ -162,10 +162,13 @@ fetch('http://192.168.43.105:5000/product', {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-
+        product_name: elNameInput.value,
+        product_desc:  elDescInput.value,
+        // product_img: reader.result,
+        product_price: elPriceInput.value
    }),
 }).then((res)=>res.json())
-//   .then((data) =>console.log(data))
+  .then((data) =>console.log(data))
   .catch((err)=>console.log(err))
 })
 

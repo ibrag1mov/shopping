@@ -204,7 +204,7 @@ figcaption{
 .js-list{
     list-style: none;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin: 0 auto;
     padding: 70px 0;
     flex-wrap: wrap;
