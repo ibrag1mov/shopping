@@ -11,55 +11,145 @@ const elPriceInput = document.querySelector('#product-price')
 const elDescInput = document.querySelector('#product-desc')
 const elList = document.querySelector('.js-list');
 
-// const elNameInput = document.querySelector('#product-name')
-let card = []
+const localData = localStorage.getItem('token');
 let id=0;
-const renderCard = (array, node)=>{
-    node.innerHTML=""
-    console.log(array);
-    array.forEach((item) => {
-       id++
-        
+
+const renderProduct = (array, node)=>{
+    node.innerHTML='';
+    array.forEach((product) => {
+
+        id++
         let newItem = document.createElement('li');
-        let newImg = document.createElement('img');
-        let newTitle = document.createElement('h2');
-        let newText = document.createElement('p');
-        let newText_desc = document.createElement('p');
-        let newEditBtn =document.createElement('button');
-        let newDeleteBtn =document.createElement('button');
+                let newImg = document.createElement('img');
+                let newTitle = document.createElement('h2');
+                let newText = document.createElement('p');
+                let newText_desc = document.createElement('p');
+                let newEditBtn =document.createElement('button');
+                let newDeleteBtn =document.createElement('button');
+        
+                newItem.setAttribute('class', 'card-list');
+                newImg.setAttribute('class', 'card-list-img');
+                newTitle.setAttribute('class', 'card-list-title');
+                newText.setAttribute('class', 'card-list-text');
+                newText_desc.setAttribute('class', 'card-list-text-desc');
+                newEditBtn.setAttribute('class', 'edit-btn');
+                newDeleteBtn.setAttribute('class', 'delete-btn');
+        
+        
+                newItem.id=id;
+                newImg.src = `http://localhost:5000/${product.product_img}`;
+                newTitle.textContent = product.product_name;
+                newText.textContent ="Price:" + product.product_price + "$";
+                newText_desc.textContent = product.product_desc;
+                newEditBtn.textContent = 'Edit';
+                newDeleteBtn.textContent = 'Delete'
+                newEditBtn.dataset.BtnEditId=id;
+                newDeleteBtn.dataset.BtnId=id;
+        
+                newItem.appendChild(newImg);
+                newItem.appendChild(newTitle);
+                newItem.appendChild(newText);
+                newItem.appendChild(newText_desc);
+                newItem.appendChild(newEditBtn);
+                newItem.appendChild(newDeleteBtn);
 
-        newItem.setAttribute('class', 'card-list');
-        newImg.setAttribute('class', 'card-list-img');
-        newTitle.setAttribute('class', 'card-list-title');
-        newText.setAttribute('class', 'card-list-text');
-        newText_desc.setAttribute('class', 'card-list-text-desc');
-        newEditBtn.setAttribute('class', 'edit-btn');
-        newDeleteBtn.setAttribute('class', 'delete-btn');
-
-
-        newItem.id=id;
-        newImg.src = item.product_img;
-        newTitle.textContent = item.product_name;
-        newText.textContent ="Price:" + item.product_price + "$";
-        newText_desc.textContent = item.product_desc;
-        newEditBtn.textContent = 'Edit';
-        newDeleteBtn.textContent = 'Delete'
-        newEditBtn.dataset.BtnEditId=id;
-        newDeleteBtn.dataset.BtnId=id;
-
-        newItem.appendChild(newImg);
-        newItem.appendChild(newTitle);
-        newItem.appendChild(newText);
-        newItem.appendChild(newText_desc);
-        newItem.appendChild(newEditBtn);
-        newItem.appendChild(newDeleteBtn);
-
-        node.appendChild(newItem);
+    node.appendChild(newItem)
     });
 }
 
+async function getProduct(){
+    const res = await fetch('http://192.168.43.105:5000/product',{
+        headers: {
+            Authorization: localData,
+        },
+    });
+    const data = await res.json();
+    renderProduct(data, elList);
+}
 
-// renderCard(card, elList)
+getProduct()
+
+elForm.addEventListener('submit', (evt)=>{
+
+   const formData = new FormData();
+
+   let img = upLoadBtn.files[0];
+  let desc = elDescInput.value.split('"').toString();
+
+
+   
+       formData.append("product_name",  elNameInput.value);
+       formData.append('product_desc', desc);
+       formData.append('product_img',  img);
+       formData.append('product_price', elPriceInput.value);
+       fetch("http://192.168.43.105:5000/product", {
+           method: 'POST',
+           headers: {
+            //    'Content-Type': 'application/json',
+               Authorization: localData
+           },
+           body: formData,
+       }).then((res)=>res.json()).then((data)=>console.log(data)).catch((err)=>console.log(err))
+
+
+    evt.preventDefault();
+})
+
+
+const deleteProduct= (id)=>{
+    fetch(`http://192.168.43.105:5000/product/${id}`,{
+        method: 'DELETE',
+        headers:{
+            Authorization: localData,
+        },
+    }).then((res)=>res.json()).then((data)=>{
+        if(data){
+            getProduct();
+        }
+    }).catch((err)=>console.log(err))
+}
+
+const editProduct= (id)=>{
+    const name = prompt('User Name');
+    const price = prompt('price');
+    const desc = prompt('Description');
+
+
+    fetch(`http://192.168.43.105:5000/product/${id}`,{
+        method: 'PUT',
+        headers:{
+            'Content-Type': 'application/json',
+            Authorization: localData,
+        },
+        body: {
+            product_name: name,
+            product_desc: desc,
+            product_price: price,
+        }
+    }).then((res)=>res.json())
+    .then((data)=>{
+
+        if(data){
+            getProduct();
+        }
+    })
+    .catch((err)=>console.log(err))
+}
+
+elList.addEventListener('click', (evt)=>{
+    if(evt.target.matches('.delete-btn')){
+        const productId = evt.target.dataset.BtnId;
+        deleteProduct(productId);   
+    }
+    else if(evt.target.matches('.edit-btn')){
+        const productId = evt.target.dataset.BtnEditId;
+        editProduct(productId);
+        // elModal.classList.remove('d-none')
+    }
+})
+
+
+
 
 
 
@@ -83,93 +173,13 @@ addBtn.addEventListener('click', (evt)=>{
 
 closeBtn.addEventListener('click', (evt)=>{
     elModal.classList.add('d-none')
+    location.reload();
 })
 
 submitBtn.addEventListener('click', (evt)=>{
     if(elNameInput.value){
         elModal.classList.add('d-none')
     }
+    // location.reload();
 })
-
-
-// elForm.addEventListener('submit', (evt)=>{
-//     console.log(reader.result);
-//     evt.preventDefault()
-//    //  console.log(upLoadBtn.files[0].name);
-//     console.log(img_id);
-
-//    fetch('http://10.10.0.247:5000/product', {
-//        method: 'POST',
-//        headers: {
-//            'Content-Type': 'application/json',
-//        },
-//        body: JSON.stringify( {
-//            product_name: elNameInput.value,
-//            product_desc: elDescInput.value,
-//            product_img: "https://picsum.photos/id/145/120/120/",
-//            product_price: elPriceInput.value,
-//        })
-//    })
-//    .then((res)=>res.json())
-//    .then((data) =>console.log(data))
-//    .catch((err)=>console.log(err))
-// })
-
-
-const form = document.querySelector('#form')
-
-
-elForm.addEventListener('submit', (evt)=>{
-    evt.preventDefault();
-
-    // const formData = new FormData(form);
-
-    
-    let forma ={
-        product_name: elNameInput.value,
-        product_desc:  elDescInput.value,
-        // product_img: reader.result,
-        product_price: elPriceInput.value
-    }
-
-  
-    card.push(forma);
-    
-    renderCard(card, elList)
-    elNameInput.value='';
-    elDescInput.value='';
-    // reader.result = '';
-    elPriceInput.value=""
-// for (item of formData){
-//     console.log(item[0], item[1]);
-// }
-
-// const formData = new FormData(form);
-
-    // formData.append("product_name",  elNameInput.value);
-    // formData.append('product_desc', elDescInput.value);
-    // formData.append('product_img', upLoadBtn.files[0]);
-    // formData.append('product_price', elDescInput.value)
-
-    // console.log(formData);
-
-    
-
-
-fetch('http://192.168.43.105:5000/product', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        product_name: elNameInput.value,
-        product_desc:  elDescInput.value,
-        // product_img: reader.result,
-        product_price: elPriceInput.value
-   }),
-}).then((res)=>res.json())
-  .then((data) =>console.log(data))
-  .catch((err)=>console.log(err))
-})
-
 
